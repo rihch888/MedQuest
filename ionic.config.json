@@ -1,4 +1,14 @@
 {
   "name": "appLogin",
-  "app_id": "b7a0fdc0"
+  "app_id": "b7a0fdc0",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ]
 }

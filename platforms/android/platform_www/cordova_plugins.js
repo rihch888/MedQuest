@@ -214,6 +214,27 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.barcodeScanner"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
+        "clobbers": [
+            "device"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-ionic-keyboard/www/android/keyboard.js",
+        "id": "cordova-plugin-ionic-keyboard.keyboard",
+        "clobbers": [
+            "window.Keyboard"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -226,7 +247,11 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.6.0",
     "cordova-plugin-camera": "2.3.0",
     "phonegap-facebook-plugin": "0.12.0",
-    "phonegap-plugin-barcodescanner": "4.0.1"
+    "phonegap-plugin-barcodescanner": "4.0.1",
+    "cordova-plugin-device": "2.0.1",
+    "cordova-plugin-splashscreen": "5.0.2",
+    "cordova-plugin-ionic-webview": "1.1.16",
+    "cordova-plugin-ionic-keyboard": "2.0.5"
 };
 // BOTTOM OF METADATA
 });

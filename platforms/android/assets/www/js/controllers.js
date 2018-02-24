@@ -81,7 +81,7 @@ angular.module('app.controllers', [])
 
 
 .controller("loginCtrl", function($scope, $state, $ionicLoading, $ionicPopup, UserService, Auth, Data, $q) {
-  
+
   //facebook>>
   //This is the success callback from the login method
    var fbLoginSuccess = function(response) {
@@ -138,13 +138,13 @@ angular.module('app.controllers', [])
   $scope.facebookSignIn = function() {
     facebookConnectPlugin.getLoginStatus(function(success){
       if(success.status === 'connected'){
-		  
+
 		 //alert(success.authResponse.accessToken);
 		 var credential = firebase.auth.FacebookAuthProvider.credential(
                     success.authResponse.accessToken);
- 
+
                 firebase.auth().signInWithCredential(credential).catch(function (error) {
-					
+
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
@@ -154,7 +154,7 @@ angular.module('app.controllers', [])
                     var credential = error.credential;
                     // ...
                 });
-		  
+
         // The user is logged in and has authenticated your app, and response.authResponse supplies
         // the user's ID, a valid access token, a signed request, and the time the access token
         // and signed request each expire
@@ -184,7 +184,7 @@ angular.module('app.controllers', [])
 				}else{
 					//$scope.hide();
 						$scope.show();
-      
+
 						$scope.hide();
 						$state.go('menu.inicio');
 
@@ -208,7 +208,7 @@ angular.module('app.controllers', [])
     });
   };
   //<<facebook
-  
+
   $scope.data = {};
   $scope.show = function() {
     $ionicLoading.show({
@@ -222,12 +222,13 @@ angular.module('app.controllers', [])
           console.log("The loading indicator is now hidden");
       });
   }
+  var myPopup = null;
   $scope.showPopup = function() {
 
 
   // An elaborate, custom popup
-  var myPopup = $ionicPopup.show({
-    template: '<center><a href="">¿Olvidaste tu contraseña?</a></center>',
+  myPopup = $ionicPopup.show({
+    template: '<center><a ng-click="resetPass()">¿Olvidaste tu contraseña?</a></center>',
     title: 'Correo electrónico o contraseña incorrectos',
     subTitle: 'Por favor vuelve a ingresar tus datos',
     scope: $scope,
@@ -241,8 +242,7 @@ angular.module('app.controllers', [])
     ]
   });
   myPopup.then(function(res) {
-    console.log('Tapped!', res);
-    $scope.data.password="";
+    //console.log('Tapped!', res);
   });
 }
   //var auth = $firebaseAuth();
@@ -264,7 +264,7 @@ angular.module('app.controllers', [])
         var errorMessage = error.message;
         $scope.showPopup();
 
-        $scope.data.password = "";
+
         //alert("Usuario o contraseña incorrecta");
         // ...
       });
@@ -323,7 +323,54 @@ angular.module('app.controllers', [])
   $scope.irRegistro = function(){
     $state.go('registro');
   }
+
+
+  $scope.resetPass = function() {
+  var myPopup2 = $ionicPopup.show({
+      template: '<input style="" type="email" placeholder="Correo Electrónico" ng-model="data.resetCorreo">',
+      title: 'Restablecer contraseña',
+      subTitle: 'Ingresa tu correo electronico.',
+      scope: $scope,
+      buttons: [
+
+        {
+          text: '<b>Aceptar</b>',
+          type: 'button-calm',
+        onTap: function(e) {
+          if (!$scope.data.resetCorreo) {
+            //don't allow the user to close unless he enters wifi password
+            alert("Ingresa correo electrónico!");
+            e.preventDefault();
+            console.log("No correo!");
+          } else {
+            return $scope.data.resetCorreo;
+          }
+        }
+      },
+      {
+        text: '<b>Cancelar</b>',
+        type: 'button button-light',
+      onTap: function(e) {
+
+      }
+    }
+      ]
+    });
+    myPopup2.then(function(res) {
+      if (res) {
+        console.log('Tapped!', res);
+        console.log("reset pass: "+res);
+        Auth.$sendPasswordResetEmail(res);
+        //Auth.$sendPasswordResetEmail("rihch888@gmail.com");
+      }
+      if(myPopup!=null){
+        myPopup.close();
+      }
+    });
+  }
+
 })
+
 
 .controller("registroCtrl", function($scope, $state, Auth, Data) {
   $scope.data = {};
@@ -406,10 +453,12 @@ angular.module('app.controllers', [])
       }).then(function(){
           //console.log("The loading indicator is now displayed");
       });
+
     };
     $scope.hide = function(){
         $ionicLoading.hide().then(function(){
             //console.log("The loading indicator is now hidden");
+
         });
     };
     $scope.show();
@@ -422,6 +471,7 @@ angular.module('app.controllers', [])
             accesoUsuario=1;
           }else{
             accesoUsuario=0;
+			$scope.hide();
           }
           // IMPORTANTE: Cuando se acabe el evento, cambiar "jugar" a ""
         });
@@ -724,7 +774,7 @@ $localStorage.porcentajeAciertos = [
     "preguntas" : 0
   },
   {
-    "categoria" : "Filosofía Institucional",
+    "categoria" : "Musica",
     "aciertos" : 0,
     "preguntas" : 0
   }
@@ -749,7 +799,7 @@ $localStorage.porcentajeAciertos = [
     title: 'Arquitectura',
     image: 'img/pic4.png'
   },{
-    title: 'Filosofía Institucional',
+    title: 'Musica',
     image: 'img/pic4.png'
   }];
 
@@ -1049,7 +1099,7 @@ $localStorage.porcentajeAciertos = [
                       porcentajeArquitectura=data.aciertos/data.preguntas;
                       console.log(porcentajeArquitectura);
                     }
-                    if (data.categoria=="Filosofía Institucional") {
+                    if (data.categoria=="Musica") {
                       porcentajeFilInst=data.aciertos/data.preguntas;
                       console.log(porcentajeFilInst);
                     }
@@ -1125,7 +1175,7 @@ $localStorage.porcentajeAciertos = [
                       "aciertos" : 0,
                       "preguntas" : 0
                     },{
-                      "categoria" : "Filosofía Institucional",
+                      "categoria" : "Musica",
                       "aciertos" : 0,
                       "preguntas" : 0
                     }
@@ -1290,7 +1340,7 @@ $localStorage.porcentajeAciertos = [
                     porcentajeArquitectura=data.aciertos/data.preguntas;
                     console.log(porcentajeArquitectura);
                   }
-                  if (data.categoria=="Filosofía Institucional") {
+                  if (data.categoria=="Musica") {
                     porcentajeFilInst=data.aciertos/data.preguntas;
                     console.log(porcentajeFilInst);
                   }
@@ -1365,7 +1415,7 @@ $localStorage.porcentajeAciertos = [
                     "preguntas" : 0
                   },
                   {
-                    "categoria" : "Filosofía Institucional",
+                    "categoria" : "Musica",
                     "aciertos" : 0,
                     "preguntas" : 0
                   }

@@ -784,10 +784,10 @@ $localStorage.porcentajeAciertos = [
 .controller("jugarCtrl", function($scope, Auth, Data, $localStorage, $state ,$ionicSwipeCardDelegate) {
   $scope.data = {};
   var cardTypes = [{
-    title: 'Literatura',
+    title: 'Pediatría',
     image: 'img/img1.jpg'
   }, {
-    title: 'Pintura',
+    title: 'Ginecología y Obstetricia',
     image: 'img/pic.png'
   }, {
     title: 'Entretenimiento',
@@ -838,6 +838,7 @@ $localStorage.porcentajeAciertos = [
           $localStorage.res2=snapshot.val().res2;
           $localStorage.res3=snapshot.val().res3;
           $localStorage.correcta=snapshot.val().correcta;
+          //infografia
           $localStorage.archivo=snapshot.val().archivo;
           $localStorage.categoria=snapshot.val().categoria;
           //alert(i+" rand: "+snapshot.val().pregunta);

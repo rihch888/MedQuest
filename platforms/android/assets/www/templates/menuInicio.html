@@ -30,19 +30,19 @@
         <form id="page-form1" class="list" style="background-color:transparent;margin-top:25px;" name="myForm">
         <label class="item item-input item-floating-label" style="border-radius:10px 10px 0px 0px; background-color: rgba(0,0,0,0.4);border-color:transparent;" id="page-input1" name="correo" ng-model="data.username">
             <input style="color:#FFF;font-weight:300;opacity:0.7;" type="email" placeholder="Correo Electrónico" ng-model="data.username">
-          </label> 
+          </label>
           <label class="item item-input item-floating-label" style="border-radius:0px 0px 10px 10px;background-color: rgba(0,0,0,0.4);border-color:transparent;" id="page-input2" name="pass" >
             <input style="color:#FFF;font-weight:300;opacity:0.8;" type="password" placeholder="Contraseña" ng-model="data.password">
           </label>
         </form>
         <button id="page-button1" class="button button-block" style="color:#000000;font-weight:300;background-color: rgba(255,255,255,0.4);border-radius:30px 30px 30px 30px;border-color:transparent;" ng-click="loginEmail()">Iniciar Sesión</button>
         <button id="page-button2" class="button button-light  button-block button-outline" style="font-weight:300;background-color: rgba(0,0,0,0.4);border-radius:30px 30px 30px 30px;border-color:transparent;" ng-click="irRegistro()">Regístrate</button>
-        <button id="page-button3" class="button button-light  button-block button-clear" style="font-weight:300;">¿Olvidaste tu contraseña?</button> 
+        <button id="page-button3" class="button button-light  button-block button-clear" style="font-weight:300;" ng-click="resetPass()">¿Olvidaste tu contraseña?</button>
         <button id="page-button4" style="font-weight:300;" class="button button-positive  button-block icon-left ion-social-facebook" ng-click="facebookSignIn()">Iniciar Sesión con Facebook</button>
         </div>
       </ion-slide-page>
     </ion-slides>
 
-    
+
   </ion-content>
 </ion-view>
