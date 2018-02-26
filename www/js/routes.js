@@ -7,13 +7,13 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-      
+
+
       .state('login', {
     url: '/login',
     templateUrl: 'templates/menuInicio.html',
     controller: 'loginCtrl'
-  }) 
+  })
       .state('registro', {
     url: '/registro',
     templateUrl: 'templates/registro.html',
@@ -24,15 +24,6 @@ angular.module('app.routes', [])
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'menuCtrl'
-  })
-      .state('menu.inicio', {
-    url: '/inicio',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/inicio.html',
-        controller: 'inicioCtrl'
-      }
-    }
   })
       .state('menu.jugar', {
     url: '/jugar',
@@ -54,23 +45,15 @@ angular.module('app.routes', [])
       }
     }
   })
-      .state('menu.chat', {
-    url: '/chat',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/chat.html',
-        controller: 'chatCtrl'
-      }
+  .state('menu.estrellas', {
+  url: '/estrellas',
+  cache: false,
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/estrellas.html',
+      controller: 'estrellasCtrl'
     }
-  })
-      .state('menu.perfil', {
-    url: '/perfil',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/perfil.html',
-        controller: 'perfilCtrl'
-      }
-    }
+  }
   })
     .state('menu.score', {
     url: '/score',
@@ -80,30 +63,11 @@ angular.module('app.routes', [])
         controller: 'scoreCtrl'
       }
     }
-  })  
-
-    .state('menu.eventos', {
-    url: '/eventos',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/eventos.html',
-        controller: 'eventosCtrl'
-      }
-    }
-  })  
-    .state('menu.jugarEvento', {
-    url: '/jugarEvento',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/jugarEvento.html',
-        controller: 'jugarEventoCtrl'
-      }
-    }
-  }) 
+  })
 
 
 $urlRouterProvider.otherwise('/login')
 
-  
+
 
 });

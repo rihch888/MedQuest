@@ -1,0 +1,24 @@
+<style>
+.button-calm{
+  background-color: #95c7df !important;
+  margin-top: 20px;
+  color:rgba(0,0,0,0.7) !important;
+}
+</style>
+<ion-view view-title="" id="estrellas">
+  <ion-content style="background: url(img/Fondo2.jpg) no-repeat center;background-size:cover;"  class="has-header">
+    <div style="padding:10px;">
+      <center>
+        <img src="img/EstrellaDorada.png">
+        <img src="img/EstrellaDorada.png">
+        <img src="img/EstrellaDorada.png">
+      </center>
+      <div>
+        <img src="img/Felicidades.png">
+      </div>
+    <center><h3 style="color: rgba(0,0,0,0.7)">Obtuviste {{data.score}} respuestas correctas!</h3></center>
+    <center><a class="button button-calm animated tada" style="border-radius:30px 30px 30px 30px;" ng-click="jugarDeNuevo()">Jugar de nuevo</a></center>
+
+    </div>
+  </ion-content>
+</ion-view>
