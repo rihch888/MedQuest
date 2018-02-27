@@ -215,7 +215,7 @@ angular.module('app.controllers', [])
           $localStorage.res2=snapshot.val().res2;
           $localStorage.res3=snapshot.val().res3;
           $localStorage.correcta=snapshot.val().correcta;
-          //infografia
+          $localStorage.infografia=snapshot.val().info;
           $localStorage.archivo=snapshot.val().archivo;
           $localStorage.categoria=snapshot.val().categoria;
           setTimeout(function () {
@@ -381,7 +381,7 @@ angular.module('app.controllers', [])
     var myPopup1 = $ionicPopup.show({
     template: '<center><img width="40%" ng-src="img/success1.png" ></center>',
     title: 'Correcto!',
-    subTitle: '',
+    subTitle: 'Las respuesta correcta es: </br><font size=2>'+$scope.data.correcta+'.</font></br></br>Porque:</br><font size=2>'+ $localStorage.infografia+'</font>',
     scope: $scope,
     buttons: [
       {
@@ -402,7 +402,7 @@ angular.module('app.controllers', [])
     var myPopup1 = $ionicPopup.show({
     template: '<center><img width="40%" ng-src="img/wrong1.png" ></center>',
     title: 'Incorrecto!',
-    subTitle: '',
+    subTitle: 'Las respuesta correcta es: </br><font size=2>'+$scope.data.correcta+'.</font></br></br>Porque:</br><font size=2>'+ $localStorage.infografia+'</font>',
     scope: $scope,
     buttons: [
       {
