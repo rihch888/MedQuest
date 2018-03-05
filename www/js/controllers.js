@@ -91,7 +91,8 @@ angular.module('app.controllers', [])
     $scope.show();
       Auth.$signInWithEmailAndPassword(email, password).then(function(firebaseUser){
         $scope.hide();
-        $localStorage.op=5;
+
+        $localStorage.op=7;
         $state.go('menu.jugar');
       }).catch(function(error) {
         $scope.hide();
@@ -166,94 +167,143 @@ angular.module('app.controllers', [])
   }
   })
 
-.controller("jugarCtrl", function($scope, Auth, Data, $localStorage, $state ,$ionicSwipeCardDelegate) {
-  $scope.data = {};
-  var cardTypes = [{
-    title: 'Cardiología',
-    image: 'img/pic2.png'
-  }, {
-    title: 'Ginecología y Obstetricia',
-    image: 'img/pic.png'
-  }, {
-    title: 'Epidemiología',
-    image: 'img/pic2.png'
-  }, {
-    title: 'Bioestadística',
-    image: 'img/river.jpg'
-  }, {
-    title: 'Pediatría',
-    image: 'img/pic4.png'
-  },{
-    title: 'Cirugía',
-    image: 'img/pic4.png'
-  },{
-    title: 'Neumología',
-    image: 'img/pic4.png'
-  },{
-    title: 'Casos Clínicos',
-    image: 'img/pic4.png'
-  }
-];
-  $scope.cards = Array.prototype.slice.call(cardTypes, 0, 0);
-  $scope.cardSwiped = function(index) {
-    $scope.addCard();
-  };
-  $scope.cardDestroyed = function(index) {
-    $scope.cards.splice(index, 1);
-  };
-  $scope.addCard = function() {
-    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-    newCard.id = Math.random();
-    $scope.cards.push(angular.extend({}, newCard));
-    Data.child("preguntas").orderByChild('categoria').equalTo(newCard.title).once('value', function (snapshot) {
-      var i = 0;
-      var rand = Math.floor(Math.random() * snapshot.numChildren());
-      snapshot.forEach(function(snapshot) {
-        if (i == rand) {
-          $localStorage.pregunta=snapshot.val().pregunta;
-          $localStorage.res1=snapshot.val().res1;
-          $localStorage.res2=snapshot.val().res2;
-          $localStorage.res3=snapshot.val().res3;
-          $localStorage.correcta=snapshot.val().correcta;
-          $localStorage.infografia=snapshot.val().info;
-          $localStorage.archivo=snapshot.val().archivo;
-          $localStorage.categoria=snapshot.val().categoria;
-          setTimeout(function () {
-          $scope.$apply(function () {
-            $scope.data.categoria=snapshot.val().categoria;
-          });
-          }, 50);
+.controller("jugarCtrl", function($scope, Auth, Data, $localStorage, $state, $ionicSwipeCardDelegate, $ionicPopup) {
+var catRandom="";
+var imgRandom="";
+  //--------------------------(RULETA)----------------------------
+  //set default degree (360*5)
+/*var degree = 1800;*/
+var degree = 2520;
+//number of clicks = 0
+var clicks = 0;
+  /*WHEEL SPIN FUNCTION*/
+  $('#spin').click(function(){
+    //add 1 every click
+    clicks ++;
+    var newDegree = degree*clicks;
+    var extraDegree = Math.floor(Math.random() * (360 - 1 + 1)) + 1;
+    totalDegree = newDegree+extraDegree;
+    $('#wheel .sec').each(function(){
+      var t = $(this);
+      var noY = 0;
+      var c = 0;
+      var n = 700;
+      var interval = setInterval(function () {
+        c++;
+        if (c === n) {
+          clearInterval(interval);
         }
-        i++;
+        var aoY = t.offset().top;
+
+        if(aoY < 23.89){
+          console.log('<<<<<<<<');
+          $('#spin').addClass('spin');
+          setTimeout(function () {
+            $('#spin').removeClass('spin');
+          }, 100);
+        }
+      }, 10);
+
+      $('#inner-wheel').css({
+        'transform' : 'rotate(' + totalDegree + 'deg)'
       });
+      console.log("extraDegree: "+extraDegree);
+      //$("#txt").html(extraDegree);
+
+      if(extraDegree>0 && extraDegree<45){
+        catRandom="Ginecología";
+        imgRandom="img/GinecoColor.png";
+      }else if(extraDegree>=45 && extraDegree<90) {
+        catRandom="Cardiología";
+        imgRandom="img/CardioColor.png";
+      }else if(extraDegree>=90 && extraDegree<135){
+        catRandom="Pediatría";
+        imgRandom="img/PediaColor.png";
+      }else if(extraDegree>=135 && extraDegree<180){
+        catRandom="Bioestadística";
+        imgRandom="img/BioColor.png";
+      }else if (extraDegree>=180 && extraDegree<225){
+        catRandom="Neumología";
+        imgRandom="img/NeumoColor.png";
+      }else if (extraDegree>=225 && extraDegree<270){
+        catRandom="Cirugía";
+        imgRandom="img/CiruColor.png";
+      }else if (extraDegree>=270 && extraDegree<315){
+        catRandom="Medicina Preventiva";
+        imgRandom="img/MedicinaColor.png";
+      }else if (extraDegree>=315 && extraDegree<=360){
+        catRandom="Epidemiología";
+        imgRandom="img/EpidemioColor.png";
+      }
+
+
+      Data.child("preguntas").orderByChild('categoria').equalTo(catRandom).once('value', function (snapshot) {
+        var i = 0;
+        var rand = Math.floor(Math.random() * snapshot.numChildren());
+        snapshot.forEach(function(snapshot) {
+          if (i == rand) {
+            $localStorage.pregunta=snapshot.val().pregunta;
+            $localStorage.res1=snapshot.val().res1;
+            $localStorage.res2=snapshot.val().res2;
+            $localStorage.res3=snapshot.val().res3;
+            $localStorage.res4=snapshot.val().res4;
+            $localStorage.correcta=snapshot.val().correcta;
+            $localStorage.infografia=snapshot.val().info;
+            $localStorage.bibliografia=snapshot.val().bibli;
+            $localStorage.archivo=snapshot.val().archivo;
+            $localStorage.categoria=snapshot.val().categoria;
+            /*setTimeout(function () {
+            $scope.$apply(function () {
+              $scope.data.categoria=snapshot.val().categoria;
+            });
+          }, 50);*/
+          }
+          i++;
+        });
+      });
+
+
+      noY = t.offset().top;
+      setTimeout(function () {
+        var popupCate = $ionicPopup.show({
+        template: '<center><img width="60%" ng-src="'+imgRandom+'" ></center>',
+        title: catRandom,
+        subTitle: "",
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>Jugar</b>',
+            type: 'button-calm',
+            onTap: function(e) {
+            if (e) {
+              catRandom="";
+              imgRandom="";
+              $state.go('menu.preguntas');
+            }
+          }
+          }
+        ]
+      });
+
+        console.log(catRandom);
+        //$("#txt").html(catRandom);
+      }, 6000);
+
     });
-    $scope.play=true;
-  }
+  });
 
-  $scope.jugar = function() {
-    setTimeout(function () {
-      $scope.$apply(function () {
-        $scope.data.categoria="";
-      });
-    }, 200);
-    $scope.play=false;
-
-    $state.go('menu.preguntas');
-  }
 })
 
-.controller('CardCtrl', function($scope, $ionicSwipeCardDelegate) {
-  $scope.goAway = function() {
-    var card = $ionicSwipeCardDelegate.getSwipeableCard($scope);
-    card.swipe();
-  };
-})
+
+  //--------------------------------------------------------------
+
+
 
 .controller("estrellasCtrl", function($scope, Auth, Data, $localStorage, $ionicPopup, $state, $ionicHistory,  $interval, $timeout) {
   $scope.data.score=$localStorage.score;
   $scope.data.oportunidades=$localStorage.op;
   $scope.jugarDeNuevo = function() {
-    $localStorage.op=5;
+    $localStorage.op=7;
     $localStorage.score=0;
     $ionicHistory.nextViewOptions({
       disableBack: true
@@ -267,7 +317,6 @@ angular.module('app.controllers', [])
   $scope.data = {};
   $scope.data.score = $localStorage.score;
   $scope.data.op = $localStorage.op;
-
   $scope.show = function() {
     $ionicLoading.show({
         template: 'Cargando...<br><br><ion-spinner icon="bubbles"></ion-spinner>',
@@ -280,11 +329,12 @@ angular.module('app.controllers', [])
           console.log("The loading indicator is now hidden");
       });
   };
-  $scope.show();
+    $scope.show();
     $scope.data.pregunta=$localStorage.pregunta;
     $scope.data.res1=$localStorage.res1;
     $scope.data.res2=$localStorage.res2;
     $scope.data.res3=$localStorage.res3;
+    $scope.data.res4=$localStorage.res4;
     $scope.data.correcta=$localStorage.correcta;
     $scope.data.categoria=$localStorage.categoria;
     if($scope.data.categoria=="Cardiología") {
@@ -366,7 +416,7 @@ angular.module('app.controllers', [])
                   //$localStorage.score=0;
                   //$localStorage.op=5;
                   $scope.data.score=0;
-                  $scope.data.op=5;
+                  $scope.data.op=7;
                   $state.go("menu.inicio");
                 }
               });
@@ -385,28 +435,116 @@ angular.module('app.controllers', [])
     scope: $scope,
     buttons: [
       {
-        text: '<b>Aceptar</b>',
+        text: '<b>Bibliografía</b>',
         type: 'button-calm',
         onTap: function(e) {
           //alert(e);
         if(e) {
-          $localStorage.score=$localStorage.score+1;
-              $state.go("menu.jugar");
+          var myPopupBibli = $ionicPopup.show({
+          template: '<center><img width="40%" ng-src="img/Register-Icon1.png" ></center>',
+          title: 'Bibliografía',
+          subTitle: $localStorage.bibliografia,
+          scope: $scope,
+          buttons: [
+            {
+              text: '<b>Contiruar</b>',
+              type: 'button-calm',
+              onTap: function(e) {
+                //alert(e);
+              if(e) {
+                $localStorage.op=$localStorage.op-1;
+                $scope.data.op = $localStorage.op;
+                //.html()
+                if ($localStorage.op==0) {
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+                  $state.go("menu.estrellas");
+                } else {
+                  $localStorage.score=$localStorage.score+1;
+                  $state.go("menu.jugar");
+                }
+
+              }
+            }
+          }
+
+          ]
+        });
+        // acaba popup
         }
       }
+    },
+      {
+        text: '<b>Contiruar</b>',
+        type: 'button-calm',
+        onTap: function(e) {
+          //alert(e);
+        if(e) {
+          $localStorage.op=$localStorage.op-1;
+          $scope.data.op = $localStorage.op;
+          if ($localStorage.op==0) {
+            $ionicHistory.nextViewOptions({
+              disableBack: true
+            });
+            $state.go("menu.estrellas");
+          } else {
+            $localStorage.score=$localStorage.score+1;
+            $state.go("menu.jugar");
+          }
+        }
       }
+    }
+
     ]
   });
   }
   $scope.showPopupIncorrecto = function () {
     var myPopup1 = $ionicPopup.show({
-    template: '<center><img width="40%" ng-src="img/wrong1.png" ></center>',
-    title: 'Incorrecto!',
+    template: '<center><img width="25%" ng-src="img/wrong1.png" ></center>',
+    title: 'incorrecto',
     subTitle: 'Las respuesta correcta es: </br><font size=2>'+$scope.data.correcta+'.</font></br></br>Porque:</br><font size=2>'+ $localStorage.infografia+'</font>',
     scope: $scope,
     buttons: [
       {
-        text: '<b>Aceptar</b>',
+        text: '<b>Bibliografía</b>',
+        type: 'button-calm',
+        onTap: function(e) {
+          //alert(e);
+        if(e) {
+          var myPopupBibli = $ionicPopup.show({
+          template: '<center><img width="40%" ng-src="img/Register-Icon1.png" ></center>',
+          title: 'Bibliografía',
+          subTitle: $localStorage.bibliografia,
+          scope: $scope,
+          buttons: [
+            {
+              text: '<b>Contiruar</b>',
+              type: 'button-calm',
+              onTap: function(e) {
+              if(e) {
+                $localStorage.op=$localStorage.op-1;
+                $scope.data.op = $localStorage.op;
+                if ($localStorage.op==0) {
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+                  $state.go("menu.estrellas");
+                } else {
+                  $state.go("menu.jugar");
+                }
+              }
+            }
+          }
+
+          ]
+        });
+        // acaba popup
+        }
+      }
+    },
+      {
+        text: '<b>Continuar</b>',
         type: 'button-calm',
         onTap: function(e) {
         if (e) {
@@ -459,7 +597,7 @@ angular.module('app.controllers', [])
                   disableBack: true
                 });
                 $scope.data.score=0;
-                $scope.data.op=5;
+                $scope.data.op=7;
                 $state.go("menu.estrellas");
                 }
               });
@@ -475,25 +613,81 @@ angular.module('app.controllers', [])
 }
 
 $scope.btn1 = function() {
+  //$( "div.progresoSinContestar" ).replaceWith('<div class="col col-15 progresoCorrecto"></div>');
 if ($scope.data.res1==$scope.data.correcta) {
   $scope.showPopupCorrecto();
+$("#res1").css("background-color", "#5FBA7D");
 }else{
   $scope.showPopupIncorrecto();
+  $("#res1").css("background-color", "#D52029");
 }
+if ($scope.data.res2==$scope.data.correcta) {
+  $("#res2").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res3==$scope.data.correcta) {
+  $("#res3").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res4==$scope.data.correcta) {
+  $("#res4").css("background-color", "#5FBA7D");
+}
+
 }
 $scope.btn2 = function() {
 if ($scope.data.res2==$scope.data.correcta) {
   $scope.showPopupCorrecto();
+  $("#res2").css("background-color", "#5FBA7D");
 }else{
   $scope.showPopupIncorrecto();
+  $("#res2").css("background-color", "#D52029");
 }
+if ($scope.data.res1==$scope.data.correcta) {
+  $("#res1").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res3==$scope.data.correcta) {
+  $("#res3").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res4==$scope.data.correcta) {
+  $("#res4").css("background-color", "#5FBA7D");
+}
+
 }
 $scope.btn3 = function() {
 if ($scope.data.res3==$scope.data.correcta) {
   $scope.showPopupCorrecto();
+  $("#res3").css("background-color", "#5FBA7D");
 }else{
   $scope.showPopupIncorrecto();
+  $("#res3").css("background-color", "#D52029");
 }
+if ($scope.data.res2==$scope.data.correcta) {
+  $("#res2").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res1==$scope.data.correcta) {
+  $("#res1").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res4==$scope.data.correcta) {
+  $("#res4").css("background-color", "#5FBA7D");
+}
+
+}
+$scope.btn4 = function() {
+if ($scope.data.res4==$scope.data.correcta) {
+  $scope.showPopupCorrecto();
+  $("#res4").css("background-color", "#5FBA7D");
+}else{
+  $scope.showPopupIncorrecto();
+  $("#res4").css("background-color", "#D52029");
+}
+if ($scope.data.res2==$scope.data.correcta) {
+  $("#res2").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res3==$scope.data.correcta) {
+  $("#res3").css("background-color", "#5FBA7D");
+}
+if ($scope.data.res1==$scope.data.correcta) {
+  $("#res1").css("background-color", "#5FBA7D");
+}
+
 }
 })
 

@@ -3,16 +3,53 @@
 /*.popup {
   border-radius: 20px 20px 20px 20px !important;
 }*/
+.popup {
+  width: 85% !important;
+}
 .popup button {
   /*border-radius: 30px 30px 30px 30px !important;*/
   background-color: #95c7df !important;
+
 }
-
-
+.progresoSinContestar {
+  height: 15px !important;
+  width: 100% !important;
+  background-color:#95c7df !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  color: black;
+}
+.progresoCorrecto {
+  height: 15px !important;
+  width: 100% !important;
+  background-color:#5FBA7D !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  color: #95c7df;
+}
+.progresoIncorrecto {
+  height: 15px !important;
+  width: 100% !important;
+  background-color:#D52029 !important;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+  color: #95c7df;
+}
 </style>
+
 <ion-view title="" id="preguntas" style="background-color: #3a556a;" >
   <ion-content padding="true" class="has-header">
+
   <div >
+    <div class="row proceso">
+      <!--<div class="col col-15 progresoCorrecto"></div>
+      <div class="col col-15 progresoIncorrecto"></div>
+      <div class="col col-15 progresoSinContestar"></div>-->
+
+    </div>
     <div class="" id="card" style="border-style:none;">
       <div class="item item-divider" style="background-color:rgba(255, 255, 255, 0.2);color:rgba(255, 255, 255, 0.8);border-color:rgba(255, 255, 255, 0.2);border-style:none;">
         <div class="row">
@@ -40,9 +77,10 @@
 
 
     <!--<center><img width="170"  ng-src="{{data.archivo}}"></center> -->
-    <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="page-button4" class="button button-block" ng-click="btn1()" ng-bind="data.res1"></button>
-    <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="page-button5" class="button button-block" ng-click="btn2()" ng-bind="data.res2"></button>
-    <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="page-button6" class="button button-block" ng-click="btn3()" ng-bind="data.res3"></button>
+    <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="res1" class="button button-block" ng-click="btn1()" ng-bind="data.res1"></button>
+    <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="res2" class="button button-block" ng-click="btn2()" ng-bind="data.res2"></button>
+    <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="res3" class="button button-block" ng-click="btn3()" ng-bind="data.res3"></button>
+    <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="res4" class="button button-block" ng-click="btn4()" ng-bind="data.res4"></button>
     <button style="background-color:rgba(255, 255, 255, 0.8);border-radius: 0px 0px 0px 0px;color:rgba(0, 0, 0, 0.8);" id="page-button7" class="button button-calm" ng-click="salir()">&nbsp;Salir</button>
     </div>
   </ion-content>
