@@ -1,15 +1,9 @@
 <style>
-  .popup {
-  border-radius: 20px 20px 20px 20px !important;
-  }
-  .popup button {
-  border-radius: 30px 30px 30px 30px !important;
-  }
   .item-complex {
-    border-color:#0073BC;
+    border-color:#95c7df;
   }
   .item-complex .item-content {
-    background-color: #0073BC;
+    background-color: #95c7df;
     color:#FFF;
   }
   .item-complex .item-content.activated{
@@ -23,18 +17,21 @@
     color: rgba(255, 255, 255, 0.4);
   }
   .bar-uvaq {
-    background-color: #0073BC;
+    background-color: #95c7df;
     color: rgba(255, 255, 255, 0.8);
-    border-color: #0073BC;
+    border-color: #95c7df;
     top: 0;
     bottom: 0;
     border-bottom: 0;
     margin-bottom: 0px;
   }
+  .azulNuevo {
+    background-color: #95c7df;
+  }
 </style>
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-    <ion-nav-bar class="bar-calm">
+    <ion-nav-bar class="azulNuevo">
       <ion-nav-back-button>
       </ion-nav-back-button>
 
@@ -47,44 +44,27 @@
   </ion-side-menu-content>
 
   <ion-side-menu side="left">
-    
-    <ion-content style="background-color:#0073BC;">
-    <center><img src="img/user4.png" style="width:130px; height:130px; border-radius:50%; margin-top:50px; margin-bottom: -15px; border:4px solid rgba(255,255,255,0.4);"></center>
-    <h3 style="font-weight:300; color:#FFF; text-align:center;">{{data.firebaseUser.displayname}}</h3>
-    <p style="font-weight:300; color:rgba(255,255,255,0.8); text-align:center; margin-bottom:25px;">{{data.firebaseUser.email}}</p>
-      <ion-list>
 
-        <ion-item class="item-icon-left "  style="background-color:#0073BC; "  menu-close href="#/menu/inicio">
-        <i class="icon ion-home" ></i>
-          <h2 style="color: rgba(255, 255, 255, 0.8);">Inicio</h2>
-        </ion-item>
-        <ion-item  class="item-icon-left "  style="background-color:#0073BC; " menu-close href="#/menu/jugar">
+    <ion-content style="background-color:#95c7df;">
+    <!--<center><img src="img/user4.png" style="width:130px; height:130px; border-radius:50%; margin-top:50px; margin-bottom: -15px; border:4px solid rgba(255,255,255,0.4);"></center>
+    <h3 style="font-weight:300; color:#FFF; text-align:center;">{{data.firebaseUser.displayname}}</h3>
+    <p style="font-weight:300; color:rgba(255,255,255,0.8); text-align:center; margin-bottom:25px;">{{data.firebaseUser.email}}</p>-->
+      <ion-list>
+        <ion-item  class="item-icon-left "  style="background-color:#95c7df; " menu-close href="#/menu/jugar">
         <i class="icon ion-ios-game-controller-a" ></i>
           <h2 style="color: rgba(255, 255, 255, 0.8);">Jugar</h2>
         </ion-item>
-        <ion-item  class="item-icon-left "  style="background-color:#0073BC; " menu-close href="#/menu/eventos">
-        <i class="icon ion-ios-calendar" ></i>
-          <h2 style="color: rgba(255, 255, 255, 0.8);">Eventos</h2>
-        </ion-item>
-         <ion-item class="item-icon-left "  style="background-color:#0073BC; " menu-close href="#/menu/chat">
-         <i class="icon ion-chatbubbles" ></i>
-          <h2 style="color: rgba(255, 255, 255, 0.8);">Chat</h2>
-        </ion-item>
-        <ion-item class="item-icon-left " style="background-color:#0073BC; " menu-close href="#/menu/perfil">
-        <i class="icon ion-person" ></i>
-          <h2 style="color: rgba(255, 255, 255, 0.8);">Perfil</h2>
-        </ion-item>
-        <ion-item class="item-icon-left " style="background-color:#0073BC; " menu-close href="#/menu/score">
+
+        <ion-item class="item-icon-left " style="background-color:#95c7df; " menu-close href="#/menu/score">
         <i class="icon ion-arrow-graph-up-right" ></i>
           <h2 style="color: rgba(255, 255, 255, 0.8);">Puntuaciones</h2>
         </ion-item>
-        <ion-item class="item-icon-left " style="background-color:#0073BC; " menu-close href="" ng-click="logOut()">
+        <ion-item class="item-icon-left " style="background-color:#95c7df; " menu-close href="" ng-click="logOut()">
         <i class="icon ion-log-out" ></i>
           <h2 style="color: rgba(255, 255, 255, 0.8);">Cerrar Sesión</h2>
         </ion-item>
-        
+
       </ion-list>
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>
-

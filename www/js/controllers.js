@@ -143,6 +143,52 @@ angular.module('app.controllers', [])
       }
     });
   }
+
+  //-------------------- MI ESTADISTICA -------------------------------------------
+  $localStorage.porcentajeAciertos = [
+  {
+  "categoria" : "Cardiología",
+  "aciertos" : 0,
+  "preguntas" : 0
+  },
+  {
+    "categoria" : "Ginecología y Obstetricia",
+    "aciertos" : 0,
+    "preguntas" : 0
+  },
+  {
+    "categoria" : "Epidemiología",
+    "aciertos" : 0,
+    "preguntas" : 0
+  },
+  {
+    "categoria" : "Bioestadística",
+    "aciertos" : 0,
+    "preguntas" : 0
+  },
+  {
+    "categoria" : "Pediatría",
+    "aciertos" : 0,
+    "preguntas" : 0
+  },
+  {
+    "categoria" : "Cirugía",
+    "aciertos" : 0,
+    "preguntas" : 0
+  },
+  {
+    "categoria" : "Neumología",
+    "aciertos" : 0,
+    "preguntas" : 0
+  },
+  {
+    "categoria" : "Medicina Preventiva",
+    "aciertos" : 0,
+    "preguntas" : 0
+  }
+];
+//__________________________________________________________________________________
+
 })
 
 
@@ -381,52 +427,6 @@ var clicks = 0;
       $scope.hide();
     }
 
-    $scope.showPopupLose = function () {
-    var myPopup1 = $ionicPopup.show({
-    template: '<center><img width="40%" ng-src="img/sad1.png" ></center>',
-    title: 'Perdiste todas tus oportunidades!',
-    subTitle: 'Tu score es de: '+$localStorage.score,
-    scope: $scope,
-    buttons: [
-      {
-        text: '<b>Aceptar</b>',
-        type: 'button-calm',
-        onTap: function(e) {
-        if (e) {
-            Auth.$onAuthStateChanged(function(firebaseUser) {
-              var idEv= "";
-              var upd = {};
-              var displayName = firebaseUser.displayname;
-              var email = firebaseUser.email;
-              var d = new Date()
-              var d = ("0" + d.getDate()).slice(-2) + "/" +  ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
-              var newPostKey = firebase.database().ref().child('Score').push().key;
-              //Data.child("Score").push().set({
-              Data.child("Score/"+newPostKey).set({
-                  name: displayName,
-                  email: email,
-                  score: $localStorage.score,
-              }, function(error) {
-                if(error) {
-                  alert(error);
-                }else{
-                  $ionicHistory.nextViewOptions({
-                    disableBack: true
-                  });
-                  //$localStorage.score=0;
-                  //$localStorage.op=5;
-                  $scope.data.score=0;
-                  $scope.data.op=7;
-                  $state.go("menu.inicio");
-                }
-              });
-          });
-        }
-      }
-      }
-    ]
-  });
-  }
     $scope.showPopupCorrecto = function () {
     var myPopup1 = $ionicPopup.show({
     template: '<center><img width="40%" ng-src="img/success1.png" ></center>',
@@ -452,6 +452,16 @@ var clicks = 0;
               onTap: function(e) {
                 //alert(e);
               if(e) {
+                $localStorage.score=$localStorage.score+1;
+                //-------------------------------- MI ESTADISTICA -------------------------------------------------
+                $localStorage.porcentajeAciertos.forEach(function(data){
+                  if (data.categoria==$localStorage.categoria){
+                    data.aciertos++;
+                    data.preguntas++;
+                  }
+                });
+                //_________________________________________________________________________________________________
+
                 $localStorage.op=$localStorage.op-1;
                 $scope.data.op = $localStorage.op;
                 //.html()
@@ -459,9 +469,109 @@ var clicks = 0;
                   $ionicHistory.nextViewOptions({
                     disableBack: true
                   });
+                  //--------------------- MI ESTADISTICA ------------------------------------------------------
+                  var porcentajeCardio = 0;
+                  var porcentajeGine = 0;
+                  var porcentajeEpi = 0;
+                  var porcentajeBio = 0;
+                  var porcentajePedi = 0;
+                  var porcentajeCiru = 0;
+                  var porcentajeNeumo = 0;
+                  var porcentajeMedi = 0;
+                  $localStorage.porcentajeAciertos.forEach(function(data){
+                    if(data.preguntas>0) {
+                      if(data.categoria=="Cardiología") {
+                        porcentajeCardio=data.aciertos/data.preguntas;
+                        console.log(porcentajeCardio);
+                      }
+                      if(data.categoria=="Ginecología y Obstetricia") {
+                        porcentajeGine=data.aciertos/data.preguntas;
+                        console.log(porcentajeGine);
+                      }
+                      if (data.categoria=="Epidemiología") {
+                        porcentajeEpi=data.aciertos/data.preguntas;
+                        console.log(porcentajeEpi);
+                      }
+                      if (data.categoria=="Bioestadística") {
+                        porcentajeBio=data.aciertos/data.preguntas;
+                        console.log(porcentajeBio);
+                      }
+                      if (data.categoria=="Pediatría") {
+                        porcentajePedi=data.aciertos/data.preguntas;
+                        console.log(porcentajePedi);
+                      }
+                      if (data.categoria=="Cirugía") {
+                        porcentajeCiru=data.aciertos/data.preguntas;
+                        console.log(porcentajeCiru);
+                      }
+                      if (data.categoria=="Neumología") {
+                        porcentajeNeumo=data.aciertos/data.preguntas;
+                        console.log(porcentajeNeumo);
+                      }
+                      if (data.categoria=="Medicina Preventiva") {
+                        porcentajeMedi=data.aciertos/data.preguntas;
+                        console.log(porcentajeMedi);
+                      }
+                    }
+                    console.log("categoría: "+data.categoria+" preguntas: "+data.preguntas+" aciertos: "+data.aciertos);
+                    });
+                  //___________________________________________________________________________________________
+                  Auth.$onAuthStateChanged(function(firebaseUser) {
+                    var upd = {};
+                    var displayName = firebaseUser.displayname;
+                    var email = firebaseUser.email;
+                    var d = new Date()
+                    var d = ("0" + d.getDate()).slice(-2) + "/" +  ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+                    var newPostKey = firebase.database().ref().child('Score').push().key;
+                    //Data.child("Score").push().set({
+                    Data.child("Score/"+newPostKey).set({
+                        name: displayName,
+                        email: email,
+                        score: $localStorage.score,
+                    }, function(error) {
+                      if(error) {
+                        alert(error);
+                      }else{
+                        $ionicHistory.nextViewOptions({
+                          disableBack: true
+                        });
+                        //------------------------------------ MI ESTADISTICA --------------------------------------------
+                        Data.child("porcentajeAciertos").push().set({
+                            idScore: newPostKey,
+                            cardio: porcentajeCardio,
+                            gine: porcentajeGine,
+                            epi: porcentajeEpi,
+                            bio: porcentajeBio,
+                            pedi: porcentajePedi,
+                            ciru: porcentajeCiru,
+                            neumo: porcentajeNeumo,
+                            medi: porcentajeMedi
+                          }, function(error) {
+                            if(error) {
+                              alert(error);
+                            }else{
+                              console.log("guardado correctamente");
+                            }
+                          });
+                          porcentajeCardio = 0;
+                          porcentajeGine = 0;
+                          porcentajeEpi = 0;
+                          porcentajeBio = 0;
+                          porcentajePedi = 0;
+                          porcentajeCiru = 0;
+                          porcentajeNeumo = 0;
+                          porcentajeMedi = 0;
+                          //___________________________________________________________________________________
+                        //$localStorage.score=0;
+                        //$localStorage.op=5;
+                        $scope.data.score=0;
+                        $scope.data.op=7;
+                      }
+                    });
+                });
+
                   $state.go("menu.estrellas");
                 } else {
-                  $localStorage.score=$localStorage.score+1;
                   $state.go("menu.jugar");
                 }
 
@@ -481,15 +591,125 @@ var clicks = 0;
         onTap: function(e) {
           //alert(e);
         if(e) {
+          $localStorage.score=$localStorage.score+1;
+          //-------------------------------- MI ESTADISTICA -------------------------------------------------
+          $localStorage.porcentajeAciertos.forEach(function(data){
+            if (data.categoria==$localStorage.categoria){
+              data.aciertos++;
+              data.preguntas++;
+            }
+          });
+          //_________________________________________________________________________________________________
+
           $localStorage.op=$localStorage.op-1;
           $scope.data.op = $localStorage.op;
           if ($localStorage.op==0) {
             $ionicHistory.nextViewOptions({
               disableBack: true
             });
+            //--------------------- MI ESTADISTICA ------------------------------------------------------
+            var porcentajeCardio = 0;
+            var porcentajeGine = 0;
+            var porcentajeEpi = 0;
+            var porcentajeBio = 0;
+            var porcentajePedi = 0;
+            var porcentajeCiru = 0;
+            var porcentajeNeumo = 0;
+            var porcentajeMedi = 0;
+            $localStorage.porcentajeAciertos.forEach(function(data){
+              if(data.preguntas>0) {
+                if(data.categoria=="Cardiología") {
+                  porcentajeCardio=data.aciertos/data.preguntas;
+                  console.log(porcentajeCardio);
+                }
+                if(data.categoria=="Ginecología y Obstetricia") {
+                  porcentajeGine=data.aciertos/data.preguntas;
+                  console.log(porcentajeGine);
+                }
+                if (data.categoria=="Epidemiología") {
+                  porcentajeEpi=data.aciertos/data.preguntas;
+                  console.log(porcentajeEpi);
+                }
+                if (data.categoria=="Bioestadística") {
+                  porcentajeBio=data.aciertos/data.preguntas;
+                  console.log(porcentajeBio);
+                }
+                if (data.categoria=="Pediatría") {
+                  porcentajePedi=data.aciertos/data.preguntas;
+                  console.log(porcentajePedi);
+                }
+                if (data.categoria=="Cirugía") {
+                  porcentajeCiru=data.aciertos/data.preguntas;
+                  console.log(porcentajeCiru);
+                }
+                if (data.categoria=="Neumología") {
+                  porcentajeNeumo=data.aciertos/data.preguntas;
+                  console.log(porcentajeNeumo);
+                }
+                if (data.categoria=="Medicina Preventiva") {
+                  porcentajeMedi=data.aciertos/data.preguntas;
+                  console.log(porcentajeMedi);
+                }
+              }
+              console.log("categoría: "+data.categoria+" preguntas: "+data.preguntas+" aciertos: "+data.aciertos);
+              });
+            //___________________________________________________________________________________________
+            Auth.$onAuthStateChanged(function(firebaseUser) {
+              var upd = {};
+              var displayName = firebaseUser.displayname;
+              var email = firebaseUser.email;
+              var d = new Date()
+              var d = ("0" + d.getDate()).slice(-2) + "/" +  ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+              var newPostKey = firebase.database().ref().child('Score').push().key;
+              //Data.child("Score").push().set({
+              Data.child("Score/"+newPostKey).set({
+                  name: displayName,
+                  email: email,
+                  score: $localStorage.score,
+              }, function(error) {
+                if(error) {
+                  alert(error);
+                }else{
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+                  //------------------------------------ MI ESTADISTICA --------------------------------------------
+                  Data.child("porcentajeAciertos").push().set({
+                      idScore: newPostKey,
+                      cardio: porcentajeCardio,
+                      gine: porcentajeGine,
+                      epi: porcentajeEpi,
+                      bio: porcentajeBio,
+                      pedi: porcentajePedi,
+                      ciru: porcentajeCiru,
+                      neumo: porcentajeNeumo,
+                      medi: porcentajeMedi
+                    }, function(error) {
+                      if(error) {
+                        alert(error);
+                      }else{
+                        console.log("guardado correctamente");
+                      }
+                    });
+                    porcentajeCardio = 0;
+                    porcentajeGine = 0;
+                    porcentajeEpi = 0;
+                    porcentajeBio = 0;
+                    porcentajePedi = 0;
+                    porcentajeCiru = 0;
+                    porcentajeNeumo = 0;
+                    porcentajeMedi = 0;
+                    //___________________________________________________________________________________
+                  //$localStorage.score=0;
+                  //$localStorage.op=5;
+                  $scope.data.score=0;
+                  $scope.data.op=7;
+                }
+              });
+          });
+
             $state.go("menu.estrellas");
           } else {
-            $localStorage.score=$localStorage.score+1;
             $state.go("menu.jugar");
           }
         }
@@ -523,12 +743,121 @@ var clicks = 0;
               type: 'button-calm',
               onTap: function(e) {
               if(e) {
+                //-------------------------------------- MI ESTADISTICA -------------------------------------------------
+                $localStorage.porcentajeAciertos.forEach(function(data){
+                  if (data.categoria==$localStorage.categoria){
+                    data.preguntas++;
+                  }
+                });
+                //_______________________________________________________________________________________________________
                 $localStorage.op=$localStorage.op-1;
                 $scope.data.op = $localStorage.op;
                 if ($localStorage.op==0) {
                   $ionicHistory.nextViewOptions({
                     disableBack: true
                   });
+
+                  //--------------------- MI ESTADISTICA ------------------------------------------------------
+                  var porcentajeCardio = 0;
+                  var porcentajeGine = 0;
+                  var porcentajeEpi = 0;
+                  var porcentajeBio = 0;
+                  var porcentajePedi = 0;
+                  var porcentajeCiru = 0;
+                  var porcentajeNeumo = 0;
+                  var porcentajeMedi = 0;
+                  $localStorage.porcentajeAciertos.forEach(function(data){
+                    if(data.preguntas>0) {
+                      if(data.categoria=="Cardiología") {
+                        porcentajeCardio=data.aciertos/data.preguntas;
+                        console.log(porcentajeCardio);
+                      }
+                      if(data.categoria=="Ginecología y Obstetricia") {
+                        porcentajeGine=data.aciertos/data.preguntas;
+                        console.log(porcentajeGine);
+                      }
+                      if (data.categoria=="Epidemiología") {
+                        porcentajeEpi=data.aciertos/data.preguntas;
+                        console.log(porcentajeEpi);
+                      }
+                      if (data.categoria=="Bioestadística") {
+                        porcentajeBio=data.aciertos/data.preguntas;
+                        console.log(porcentajeBio);
+                      }
+                      if (data.categoria=="Pediatría") {
+                        porcentajePedi=data.aciertos/data.preguntas;
+                        console.log(porcentajePedi);
+                      }
+                      if (data.categoria=="Cirugía") {
+                        porcentajeCiru=data.aciertos/data.preguntas;
+                        console.log(porcentajeCiru);
+                      }
+                      if (data.categoria=="Neumología") {
+                        porcentajeNeumo=data.aciertos/data.preguntas;
+                        console.log(porcentajeNeumo);
+                      }
+                      if (data.categoria=="Medicina Preventiva") {
+                        porcentajeMedi=data.aciertos/data.preguntas;
+                        console.log(porcentajeMedi);
+                      }
+                    }
+                    console.log("categoría: "+data.categoria+" preguntas: "+data.preguntas+" aciertos: "+data.aciertos);
+                    });
+                  //___________________________________________________________________________________________
+                  Auth.$onAuthStateChanged(function(firebaseUser) {
+                    var upd = {};
+                    var displayName = firebaseUser.displayname;
+                    var email = firebaseUser.email;
+                    var d = new Date()
+                    var d = ("0" + d.getDate()).slice(-2) + "/" +  ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+                    var newPostKey = firebase.database().ref().child('Score').push().key;
+                    //Data.child("Score").push().set({
+                    Data.child("Score/"+newPostKey).set({
+                        name: displayName,
+                        email: email,
+                        score: $localStorage.score,
+                    }, function(error) {
+                      if(error) {
+                        alert(error);
+                      }else{
+                        $ionicHistory.nextViewOptions({
+                          disableBack: true
+                        });
+                        //------------------------------------ MI ESTADISTICA --------------------------------------------
+                        Data.child("porcentajeAciertos").push().set({
+                            idScore: newPostKey,
+                            cardio: porcentajeCardio,
+                            gine: porcentajeGine,
+                            epi: porcentajeEpi,
+                            bio: porcentajeBio,
+                            pedi: porcentajePedi,
+                            ciru: porcentajeCiru,
+                            neumo: porcentajeNeumo,
+                            medi: porcentajeMedi
+                          }, function(error) {
+                            if(error) {
+                              alert(error);
+                            }else{
+                              console.log("guardado correctamente");
+                            }
+                          });
+                          porcentajeCardio = 0;
+                          porcentajeGine = 0;
+                          porcentajeEpi = 0;
+                          porcentajeBio = 0;
+                          porcentajePedi = 0;
+                          porcentajeCiru = 0;
+                          porcentajeNeumo = 0;
+                          porcentajeMedi = 0;
+                          //___________________________________________________________________________________
+                        //$localStorage.score=0;
+                        //$localStorage.op=5;
+                        $scope.data.score=0;
+                        $scope.data.op=7;
+                      }
+                    });
+                });
+
                   $state.go("menu.estrellas");
                 } else {
                   $state.go("menu.jugar");
@@ -548,12 +877,121 @@ var clicks = 0;
         type: 'button-calm',
         onTap: function(e) {
         if (e) {
+          //-------------------------------------- MI ESTADISTICA -------------------------------------------------
+          $localStorage.porcentajeAciertos.forEach(function(data){
+            if (data.categoria==$localStorage.categoria){
+              data.preguntas++;
+            }
+          });
+          //_______________________________________________________________________________________________________
           $localStorage.op=$localStorage.op-1;
           $scope.data.op = $localStorage.op;
           if ($localStorage.op==0) {
             $ionicHistory.nextViewOptions({
               disableBack: true
             });
+
+            //--------------------- MI ESTADISTICA ------------------------------------------------------
+            var porcentajeCardio = 0;
+            var porcentajeGine = 0;
+            var porcentajeEpi = 0;
+            var porcentajeBio = 0;
+            var porcentajePedi = 0;
+            var porcentajeCiru = 0;
+            var porcentajeNeumo = 0;
+            var porcentajeMedi = 0;
+            $localStorage.porcentajeAciertos.forEach(function(data){
+              if(data.preguntas>0) {
+                if(data.categoria=="Cardiología") {
+                  porcentajeCardio=data.aciertos/data.preguntas;
+                  console.log(porcentajeCardio);
+                }
+                if(data.categoria=="Ginecología y Obstetricia") {
+                  porcentajeGine=data.aciertos/data.preguntas;
+                  console.log(porcentajeGine);
+                }
+                if (data.categoria=="Epidemiología") {
+                  porcentajeEpi=data.aciertos/data.preguntas;
+                  console.log(porcentajeEpi);
+                }
+                if (data.categoria=="Bioestadística") {
+                  porcentajeBio=data.aciertos/data.preguntas;
+                  console.log(porcentajeBio);
+                }
+                if (data.categoria=="Pediatría") {
+                  porcentajePedi=data.aciertos/data.preguntas;
+                  console.log(porcentajePedi);
+                }
+                if (data.categoria=="Cirugía") {
+                  porcentajeCiru=data.aciertos/data.preguntas;
+                  console.log(porcentajeCiru);
+                }
+                if (data.categoria=="Neumología") {
+                  porcentajeNeumo=data.aciertos/data.preguntas;
+                  console.log(porcentajeNeumo);
+                }
+                if (data.categoria=="Medicina Preventiva") {
+                  porcentajeMedi=data.aciertos/data.preguntas;
+                  console.log(porcentajeMedi);
+                }
+              }
+              console.log("categoría: "+data.categoria+" preguntas: "+data.preguntas+" aciertos: "+data.aciertos);
+              });
+            //___________________________________________________________________________________________
+            Auth.$onAuthStateChanged(function(firebaseUser) {
+              var upd = {};
+              var displayName = firebaseUser.displayname;
+              var email = firebaseUser.email;
+              var d = new Date()
+              var d = ("0" + d.getDate()).slice(-2) + "/" +  ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+              var newPostKey = firebase.database().ref().child('Score').push().key;
+              //Data.child("Score").push().set({
+              Data.child("Score/"+newPostKey).set({
+                  name: displayName,
+                  email: email,
+                  score: $localStorage.score,
+              }, function(error) {
+                if(error) {
+                  alert(error);
+                }else{
+                  $ionicHistory.nextViewOptions({
+                    disableBack: true
+                  });
+                  //------------------------------------ MI ESTADISTICA --------------------------------------------
+                  Data.child("porcentajeAciertos").push().set({
+                      idScore: newPostKey,
+                      cardio: porcentajeCardio,
+                      gine: porcentajeGine,
+                      epi: porcentajeEpi,
+                      bio: porcentajeBio,
+                      pedi: porcentajePedi,
+                      ciru: porcentajeCiru,
+                      neumo: porcentajeNeumo,
+                      medi: porcentajeMedi
+                    }, function(error) {
+                      if(error) {
+                        alert(error);
+                      }else{
+                        console.log("guardado correctamente");
+                      }
+                    });
+                    porcentajeCardio = 0;
+                    porcentajeGine = 0;
+                    porcentajeEpi = 0;
+                    porcentajeBio = 0;
+                    porcentajePedi = 0;
+                    porcentajeCiru = 0;
+                    porcentajeNeumo = 0;
+                    porcentajeMedi = 0;
+                    //___________________________________________________________________________________
+                  //$localStorage.score=0;
+                  //$localStorage.op=5;
+                  $scope.data.score=0;
+                  $scope.data.op=7;
+                }
+              });
+          });
+
             $state.go("menu.estrellas");
           } else {
             $state.go("menu.jugar");
@@ -584,6 +1022,54 @@ var clicks = 0;
           Auth.$onAuthStateChanged(function(firebaseUser) {
             var displayName = firebaseUser.displayname;
             var email = firebaseUser.email;
+            //--------------------- MI ESTADISTICA ------------------------------------------------------
+            var porcentajeCardio = 0;
+            var porcentajeGine = 0;
+            var porcentajeEpi = 0;
+            var porcentajeBio = 0;
+            var porcentajePedi = 0;
+            var porcentajeCiru = 0;
+            var porcentajeNeumo = 0;
+            var porcentajeMedi = 0;
+            $localStorage.porcentajeAciertos.forEach(function(data){
+              if(data.preguntas>0) {
+                if(data.categoria=="Cardiología") {
+                  porcentajeCardio=data.aciertos/data.preguntas;
+                  console.log(porcentajeCardio);
+                }
+                if(data.categoria=="Ginecología y Obstetricia") {
+                  porcentajeGine=data.aciertos/data.preguntas;
+                  console.log(porcentajeGine);
+                }
+                if (data.categoria=="Epidemiología") {
+                  porcentajeEpi=data.aciertos/data.preguntas;
+                  console.log(porcentajeEpi);
+                }
+                if (data.categoria=="Bioestadística") {
+                  porcentajeBio=data.aciertos/data.preguntas;
+                  console.log(porcentajeBio);
+                }
+                if (data.categoria=="Pediatría") {
+                  porcentajePedi=data.aciertos/data.preguntas;
+                  console.log(porcentajePedi);
+                }
+                if (data.categoria=="Cirugía") {
+                  porcentajeCiru=data.aciertos/data.preguntas;
+                  console.log(porcentajeCiru);
+                }
+                if (data.categoria=="Neumología") {
+                  porcentajeNeumo=data.aciertos/data.preguntas;
+                  console.log(porcentajeNeumo);
+                }
+                if (data.categoria=="Medicina Preventiva") {
+                  porcentajeMedi=data.aciertos/data.preguntas;
+                  console.log(porcentajeMedi);
+                }
+              }
+              console.log("categoría: "+data.categoria+" preguntas: "+data.preguntas+" aciertos: "+data.aciertos);
+            //___________________________________________________________________________________________
+          });
+
             var newPostKey = firebase.database().ref().child('Score').push().key;
             Data.child("Score/"+newPostKey).set({
                 name: displayName,
@@ -596,6 +1082,34 @@ var clicks = 0;
                 $ionicHistory.nextViewOptions({
                   disableBack: true
                 });
+                //------------------------------------------- MI ESTADISTICA ---------------------------------------------
+                Data.child("porcentajeAciertos").push().set({
+                    idScore: newPostKey,
+                    cardio: porcentajeCardio,
+                    gine: porcentajeGine,
+                    epi: porcentajeEpi,
+                    bio: porcentajeBio,
+                    pedi: porcentajePedi,
+                    ciru: porcentajeCiru,
+                    neumo: porcentajeNeumo,
+                    medi: porcentajeMedi
+                  }, function(error) {
+                    if(error) {
+                      alert(error);
+                    }else{
+                      console.log("guardado correctamente");
+                    }
+                  });
+                  porcentajeCardio = 0;//papilla
+                  porcentajeGine = 0;
+                  porcentajeEpi = 0;
+                  porcentajeBio = 0;
+                  porcentajePedi = 0;
+                  porcentajeCiru = 0;
+                  porcentajeNeumo = 0;
+                  porcentajeMedi = 0;
+                //________________________________________________________________________________________________________
+
                 $scope.data.score=0;
                 $scope.data.op=7;
                 $state.go("menu.estrellas");
