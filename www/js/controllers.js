@@ -143,7 +143,6 @@ angular.module('app.controllers', [])
       }
     });
   }
-
   //-------------------- MI ESTADISTICA -------------------------------------------
   $localStorage.porcentajeAciertos = [
   {
@@ -213,7 +212,7 @@ angular.module('app.controllers', [])
   }
   })
 
-.controller("jugarCtrl", function($scope, Auth, Data, $localStorage, $state, $ionicSwipeCardDelegate, $ionicPopup) {
+.controller("jugarCtrl", function($scope, Auth, Data, $localStorage, $state, $ionicPopup) {
 var catRandom="";
 var imgRandom="";
   //--------------------------(RULETA)----------------------------
@@ -242,7 +241,7 @@ var clicks = 0;
         var aoY = t.offset().top;
 
         if(aoY < 23.89){
-          console.log('<<<<<<<<');
+          //console.log('<<<<<<<<');
           $('#spin').addClass('spin');
           setTimeout(function () {
             $('#spin').removeClass('spin');
@@ -426,6 +425,7 @@ var clicks = 0;
     }else{
       $scope.hide();
     }
+
 
     $scope.showPopupCorrecto = function () {
     var myPopup1 = $ionicPopup.show({
@@ -712,6 +712,7 @@ var clicks = 0;
           } else {
             $state.go("menu.jugar");
           }
+
         }
       }
     }
