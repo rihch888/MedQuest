@@ -1206,6 +1206,10 @@ if ($scope.data.res1==$scope.data.correcta) {
 }
 })
 
+.controller("estadisticaCtrl", function($scope, Auth, Data, $firebaseArray, $ionicLoading) {
+
+})
+
 .controller("scoreCtrl", function($scope, Auth, Data, $firebaseArray, $localStorage, $ionicLoading) {
   $scope.scores = {};
   var refScore = Data.child("Score");

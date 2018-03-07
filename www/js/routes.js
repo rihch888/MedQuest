@@ -64,7 +64,16 @@ angular.module('app.routes', [])
       }
     }
   })
-
+  .state('menu.estadistica', {
+  url: '/estadistica',
+  cache: false,
+  views: {
+    'menuContent': {
+      templateUrl: 'templates/estadistica.html',
+      controller: 'estadisticaCtrl'
+    }
+  }
+  })
 
 $urlRouterProvider.otherwise('/login')
 
