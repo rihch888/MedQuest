@@ -75,6 +75,16 @@ angular.module('app.routes', [])
     }
   })
 
+    .state('menu.quinesSomos', {
+    url: '/quienesSomos',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/quienesSomos.html',
+        controller: 'quienesSomosCtrl'
+      }
+    }
+  })
+
 
 $urlRouterProvider.otherwise('/login')
 

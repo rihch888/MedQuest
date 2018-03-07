@@ -1263,6 +1263,10 @@ if ($scope.data.res1==$scope.data.correcta) {
 
 })
 
+.controller("quienesSomosCtrl", function($scope, Auth, Data, $firebaseArray, $ionicLoading) {
+	
+})
+
 .controller("scoreCtrl", function($scope, Auth, Data, $firebaseArray, $localStorage, $ionicLoading) {
   $scope.scores = {};
   var refScore = Data.child("Score");
