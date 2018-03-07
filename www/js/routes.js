@@ -55,15 +55,6 @@ angular.module('app.routes', [])
     }
   }
   })
-    .state('menu.score', {
-    url: '/score',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/score.html',
-        controller: 'scoreCtrl'
-      }
-    }
-  })
   .state('menu.estadistica', {
   url: '/estadistica',
   cache: false,
@@ -74,6 +65,16 @@ angular.module('app.routes', [])
     }
   }
   })
+    .state('menu.score', {
+    url: '/score',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/score.html',
+        controller: 'scoreCtrl'
+      }
+    }
+  })
+
 
 $urlRouterProvider.otherwise('/login')
 

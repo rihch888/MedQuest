@@ -16,7 +16,6 @@ angular.module('app.controllers', [])
   $scope.show();
   Auth.$onAuthStateChanged(function(firebaseUser) {
       $scope.data.firebaseUser = firebaseUser;
-      console.log(firebaseUser.displayName);
       Data.child("users").child(firebaseUser.uid).once('value', function (snapshot) {
         var key = snapshot.key;
         var childKey = snapshot.child("displayName").val();
@@ -347,15 +346,14 @@ var clicks = 0;
 .controller("estrellasCtrl", function($scope, Auth, Data, $localStorage, $ionicPopup, $state, $ionicHistory,  $interval, $timeout) {
   $scope.data.score=$localStorage.score;
   $scope.data.oportunidades=$localStorage.op;
+  $localStorage.op=7;
+  $localStorage.score=0;
   $scope.jugarDeNuevo = function() {
-    $localStorage.op=7;
-    $localStorage.score=0;
     $ionicHistory.nextViewOptions({
       disableBack: true
     });
     $state.go('menu.preguntas');
   }
-
 })
 
 .controller("preguntasCtrl", function($scope, Auth, Data, $ionicLoading, $localStorage, $ionicPopup, $state, $ionicHistory,  $interval, $timeout) {
@@ -537,7 +535,7 @@ var clicks = 0;
                         });
                         //------------------------------------ MI ESTADISTICA --------------------------------------------
                         Data.child("porcentajeAciertos").push().set({
-                            idScore: newPostKey,
+                            user: email,
                             cardio: porcentajeCardio,
                             gine: porcentajeGine,
                             epi: porcentajeEpi,
@@ -675,7 +673,7 @@ var clicks = 0;
                   });
                   //------------------------------------ MI ESTADISTICA --------------------------------------------
                   Data.child("porcentajeAciertos").push().set({
-                      idScore: newPostKey,
+                      user: email,
                       cardio: porcentajeCardio,
                       gine: porcentajeGine,
                       epi: porcentajeEpi,
@@ -826,7 +824,7 @@ var clicks = 0;
                         });
                         //------------------------------------ MI ESTADISTICA --------------------------------------------
                         Data.child("porcentajeAciertos").push().set({
-                            idScore: newPostKey,
+                            user: email,
                             cardio: porcentajeCardio,
                             gine: porcentajeGine,
                             epi: porcentajeEpi,
@@ -960,7 +958,7 @@ var clicks = 0;
                   });
                   //------------------------------------ MI ESTADISTICA --------------------------------------------
                   Data.child("porcentajeAciertos").push().set({
-                      idScore: newPostKey,
+                      user: email,
                       cardio: porcentajeCardio,
                       gine: porcentajeGine,
                       epi: porcentajeEpi,
@@ -1085,7 +1083,7 @@ var clicks = 0;
                 });
                 //------------------------------------------- MI ESTADISTICA ---------------------------------------------
                 Data.child("porcentajeAciertos").push().set({
-                    idScore: newPostKey,
+                    user: email,
                     cardio: porcentajeCardio,
                     gine: porcentajeGine,
                     epi: porcentajeEpi,
@@ -1207,6 +1205,61 @@ if ($scope.data.res1==$scope.data.correcta) {
 })
 
 .controller("estadisticaCtrl", function($scope, Auth, Data, $firebaseArray, $ionicLoading) {
+  var numPartidas = 0;
+  var sumaCardio = 0;
+  var sumaGine = 0;
+  var sumaEpi = 0;
+  var sumaBio = 0;
+  var sumaPedi = 0;
+  var sumaCiru = 0;
+  var sumaNeumo = 0;
+  var sumaMedi = 0;
+  //porcentajeAciertos
+  var porcentajeCardio = 0;
+  var porcentajeGine = 0;
+  var porcentajeEpi = 0;
+  var porcentajeBio = 0;
+  var porcentajePedi = 0;
+  var porcentajeCiru = 0;
+  var porcentajeNeumo = 0;
+  var porcentajeMedi = 0;
+  Auth.$onAuthStateChanged(function(firebaseUser) {
+      Data.child("users").child(firebaseUser.uid).once('value', function (snapshot) {
+        var email = snapshot.child("email").val();
+        Data.child("porcentajeAciertos").orderByChild('user').equalTo(email).once('value', function (snapshot) {
+          snapshot.forEach(function(snapshot) {
+            numPartidas=numPartidas+1;
+            sumaCardio+=snapshot.val().cardio;
+            sumaGine+=snapshot.val().gine;
+            sumaEpi+=snapshot.val().epi;
+            sumaBio+=snapshot.val().bio;
+            sumaPedi+=snapshot.val().pedi;
+            sumaCiru+=snapshot.val().ciru;
+            sumaNeumo+=snapshot.val().neumo;
+            sumaMedi+=snapshot.val().medi;
+          });
+          porcentajeCardio=Math.floor((sumaCardio/numPartidas)*100);
+          porcentajeGine=Math.floor((sumaGine/numPartidas)*100);
+          porcentajeEpi=Math.floor((sumaEpi/numPartidas)*100);
+          porcentajeBio=Math.floor((sumaBio/numPartidas)*100);
+          porcentajePedi=Math.floor((sumaPedi/numPartidas)*100);
+          porcentajeCiru=Math.floor((sumaCiru/numPartidas)*100);
+          porcentajeNeumo=Math.floor((sumaNeumo/numPartidas)*100);
+          porcentajeMedi=Math.floor((sumaMedi/numPartidas)*100);
+          $scope.cardioCounter=porcentajeCardio;
+          $scope.gineCounter=porcentajeGine;
+          $scope.epiCounter=porcentajeEpi;
+          $scope.bioCounter=porcentajeBio;
+          $scope.pediCounter=porcentajePedi;
+          $scope.ciruCounter=porcentajeCiru;
+          $scope.neumoCounter=porcentajeNeumo;
+          $scope.mediCounter=porcentajeMedi;
+          console.log("porcentajeEpi: "+porcentajeEpi);
+        });
+      });
+    });
+
+
 
 })
 

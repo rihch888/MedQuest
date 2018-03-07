@@ -6,14 +6,107 @@
   border-radius: 0px 0px 0px 0px !important;
 }
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: #000000 !important;
+progress[value]{
+ -webkit-appearance: none;
+ appearance: none;
+ height: 30px;
 }
+progress[value]::-webkit-progress-bar {
+ background-color: #B2B5B9;
+ border-radius: 20px 20px 20px 20px;
+}
+ #cardioBarra[value]::-webkit-progress-value {
+ background-image:
+    -webkit-linear-gradient(top,
+                            rgba(255, 255, 255, .25),
+                            rgba(0, 0, 0, .25)),
+    -webkit-linear-gradient(left, #e16a73, #e16a73);
+   border-radius: 20px 20px 20px 20px;
+   background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+#gineBarra[value]::-webkit-progress-value {
+background-image:
+   -webkit-linear-gradient(top,
+                           rgba(255, 255, 255, .25),
+                           rgba(0, 0, 0, .25)),
+   -webkit-linear-gradient(left, #f181eb, #f181eb);
+  border-radius: 20px 20px 20px 20px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+#epiBarra[value]::-webkit-progress-value {
+background-image:
+   -webkit-linear-gradient(top,
+                           rgba(255, 255, 255, .25),
+                           rgba(0, 0, 0, .25)),
+   -webkit-linear-gradient(left, #6ae173, #6ae173);
+  border-radius: 20px 20px 20px 20px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+#bioBarra[value]::-webkit-progress-value {
+background-image:
+   -webkit-linear-gradient(top,
+                           rgba(255, 255, 255, .25),
+                           rgba(0, 0, 0, .25)),
+   -webkit-linear-gradient(left, #955bbb, #955bbb);
+  border-radius: 20px 20px 20px 20px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+#pediBarra[value]::-webkit-progress-value {
+background-image:
+   -webkit-linear-gradient(top,
+                           rgba(255, 255, 255, .25),
+                           rgba(0, 0, 0, .25)),
+   -webkit-linear-gradient(left, #e1d36a, #e1d36a);
+  border-radius: 20px 20px 20px 20px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+#ciruBarra[value]::-webkit-progress-value {
+background-image:
+   -webkit-linear-gradient(top,
+                           rgba(255, 255, 255, .25),
+                           rgba(0, 0, 0, .25)),
+   -webkit-linear-gradient(left, #e1a86a, #e1a86a);
+  border-radius: 20px 20px 20px 20px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+#neumoBarra[value]::-webkit-progress-value {
+background-image:
+   -webkit-linear-gradient(top,
+                           rgba(255, 255, 255, .25),
+                           rgba(0, 0, 0, .25)),
+   -webkit-linear-gradient(left, #53d5c0, #53d5c0);
+  border-radius: 20px 20px 20px 20px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+#mediBarra[value]::-webkit-progress-value {
+background-image:
+   -webkit-linear-gradient(top,
+                           rgba(255, 255, 255, .25),
+                           rgba(0, 0, 0, .25)),
+   -webkit-linear-gradient(left, #6c5c53, #6c5c53);
+  border-radius: 20px 20px 20px 20px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
 </style>
 <ion-view title="" id="estadistica">
-  <ion-content padding="false" scroll="false" style="background: url(img/Fondo1.jpg) no-repeat center;background-size:cover;">
-    <h1>Mi Estadística</h1>
-
-
+  <ion-content class="has-header" padding="true" scroll="true" style="background: url(img/Fondo1.jpg) no-repeat center;background-size:cover;">
+      <center><h1>Estadísticas</h1></center>
+      <center><h4>Cardiología {{cardioCounter}}%</h4></center>
+     <progress id="cardioBarra" max="100" value="{{ cardioCounter }}"> </progress>
+     <center><h4>Ginecología y Obstetricia {{gineCounter}}%</h4></center>
+     <progress id="gineBarra" max="100" value="{{ gineCounter }}"> </progress>
+     <center><h4>Epidemiología {{epiCounter}}%</h4></center>
+     <progress id="epiBarra" max="100" value="{{ epiCounter }}"> </progress>
+     <center><h4>Bioestadística {{bioCounter}}%</h4></center>
+     <progress id="bioBarra" max="100" value="{{ bioCounter }}"> </progress>
+     <center><h4>Pediatría {{pediCounter}}%</h4></center>
+     <progress id="pediBarra" max="100" value="{{ pediCounter }}"> </progress>
+     <center><h4>Cirugía {{ciruCounter}}%</h4></center>
+     <progress id="ciruBarra" max="100" value="{{ ciruCounter }}"> </progress>
+     <center><h4>Neumología {{neumoCounter}}%</h4></center>
+     <progress id="neumoBarra" max="100" value="{{ neumoCounter }}"> </progress>
+     <center><h4>Medicina Preventiva {{mediCounter}}%</h4></center>
+     <progress id="mediBarra" max="100" value="{{ mediCounter }}"> </progress>
   </ion-content>
 </ion-view>
