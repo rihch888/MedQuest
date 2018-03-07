@@ -9,9 +9,18 @@
   <ion-content style="background: url(img/Fondo2.jpg) no-repeat center;background-size:cover;"  class="has-header">
     <div style="padding:10px;">
       <center>
-        <img src="img/EstrellaDorada.png">
-        <img src="img/EstrellaDorada.png">
-        <img src="img/EstrellaDorada.png">
+          <div ng-if="data.score ==1 || data.score == 2">
+            <img src="img/EstrellaDorada.png">
+          </div>
+          <div ng-if="data.score ==3 || data.score ==4 || data.score == 5">
+            <img src="img/EstrellaDorada.png">
+            <img src="img/EstrellaDorada.png">
+          </div>
+          <div ng-if="data.score ==6 || data.score == 7">
+            <img src="img/EstrellaDorada.png">
+            <img src="img/EstrellaDorada.png">
+            <img src="img/EstrellaDorada.png">
+          </div>
       </center>
       <div>
         <img src="img/Felicidades.png">
