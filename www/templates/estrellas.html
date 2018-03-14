@@ -22,7 +22,13 @@
             <img src="img/EstrellaDorada.png">
           </div>
       </center>
-      <div>
+      <div ng-if="data.score ==1 || data.score == 2">
+        <img src="img/Mejorar.png">
+      </div>
+      <div ng-if="data.score ==3 || data.score ==4 || data.score == 5">
+        <img src="img/Bien.png">
+      </div>
+      <div ng-if="data.score ==6 || data.score == 7">
         <img src="img/Felicidades.png">
       </div>
     <center><h3 style="color: rgba(0,0,0,0.7)">Obtuviste {{data.score}} respuestas correctas!</h3></center>
