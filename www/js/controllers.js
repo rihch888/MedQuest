@@ -90,7 +90,7 @@ angular.module('app.controllers', [])
     $scope.show();
       Auth.$signInWithEmailAndPassword(email, password).then(function(firebaseUser){
         $scope.hide();
-
+	$localStorage.score=0;
         $localStorage.op=7;
         $state.go('menu.jugar');
       }).catch(function(error) {
