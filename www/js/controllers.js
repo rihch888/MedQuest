@@ -445,7 +445,7 @@ var clicks = 0;
           scope: $scope,
           buttons: [
             {
-              text: '<b>Contiruar</b>',
+              text: '<b>Continuar</b>',
               type: 'button-calm',
               onTap: function(e) {
                 //alert(e);
@@ -584,7 +584,7 @@ var clicks = 0;
       }
     },
       {
-        text: '<b>Contiruar</b>',
+        text: '<b>Continuar</b>',
         type: 'button-calm',
         onTap: function(e) {
           //alert(e);
@@ -738,7 +738,7 @@ var clicks = 0;
           scope: $scope,
           buttons: [
             {
-              text: '<b>Contiruar</b>',
+              text: '<b>Continuar</b>',
               type: 'button-calm',
               onTap: function(e) {
               if(e) {
